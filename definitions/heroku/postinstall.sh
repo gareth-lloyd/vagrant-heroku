@@ -2,6 +2,10 @@
 
 date > /etc/vagrant_box_build_time
 
+# deadsnakes allows us to install python 2.7
+sudo apt-get install -y python-software-properties
+sudo add-apt-repository ppa:fkrull/deadsnakes
+
 # Apt-install various things necessary for Ruby, guest additions,
 # etc., and remove optional things to trim down the machine.
 apt-get -y update
@@ -10,8 +14,14 @@ apt-get -y install linux-headers-$(uname -r) build-essential
 apt-get -y install zlib1g-dev libssl-dev libreadline5-dev
 apt-get -y install git-core vim
 
+
+apt-get -y install python2.7 python2.7-dev
+curl -O http://python-distribute.org/distribute_setup.py
+python2.7 distribute_setup.py
+
 # Apt-install python tools and libraries
 # libpq-dev lets us compile psycopg for Postgres
+
 apt-get -y install python-setuptools python-dev libpq-dev pep8
 
 # Setup sudo to allow no-password sudo for "admin"
@@ -54,10 +64,9 @@ groupadd puppet
 # Install Foreman
 /opt/ruby/bin/gem install foreman --no-ri --no-rdoc
 
-# Install pip, virtualenv, and virtualenvwrapper
-easy_install pip
-pip install virtualenv
-pip install virtualenvwrapper
+easy_install-2.7 pip
+pip2.7 install virtualenv
+pip2.7 install virtualenvwrapper
 
 # Add a basic virtualenvwrapper config to .bashrc
 echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
